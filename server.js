@@ -2,9 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Person = require('./models/Person');
+const cors = require('cors');   // ✅ import cors
 
 const app = express();
 app.use(bodyParser.json());
+
+app.use(cors({
+  origin: '*',   // หรือใส่ 'http://localhost:3000' เฉพาะ origin ที่คุณอนุญาต
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 // เชื่อม MongoDB
 mongoose.connect('mongodb://localhost:27017/yourdb')
@@ -140,7 +148,7 @@ app.get('/api/person/search-by-pagination', async (req, res) => {
 
 
 // ---------------------- Start Server ----------------------
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
